@@ -17,8 +17,9 @@
 
 <div class="container">
     <h1>DécorCraft Studio</h1>
+		<div style="text-align: left;"> <a th:href="@{about}">About us</a> </div>
     <hr>
-    <h2>Parts</h2>
+    <h2>Crafting Options</h2>
     <form th:action="@{/mainscreen}">
         Filter: <input type="text" name="partkeyword" id="partkeyword" size="50" th:value="${partkeyword}" required />
         &nbsp;
@@ -50,7 +51,7 @@
         </tr>
         </tbody>
     </table>
-    <h2>Products</h2>
+    <h2>Signature Pieces</h2>
     <form th:action="@{/mainscreen}">
         Filter: <input type="text" name="productkeyword" id="productkeyword" size="50" th:value="${productkeyword}" required />
         &nbsp;
@@ -79,14 +80,19 @@
             <td th:text="${tempProduct.name}">1</td>
             <td th:text="${tempProduct.price}">1</td>
             <td th:text="${tempProduct.inv}">1</td>
-            <td><a th:href="@{/showProductFormForUpdate(productID=${tempProduct.id})}" class="btn btn-primary btn-sm mb-3">Update</a>
+            <td>
+                <a th:href="@{/showProductFormForUpdate(productID=${tempProduct.id})}" class="btn btn-primary btn-sm mb-3">Update</a>
                 <a th:href="@{/deleteproduct(productID=${tempProduct.id})}" class="btn btn-primary btn-sm mb-3"
                    onclick="if(!(confirm('Are you sure you want to delete this product?')))return false">Delete</a>
+                <!--test-->
+                <a th:href="@{/buynow(productId=${tempProduct.id})}" class="btn btn-primary btn-sm mb-3"
+                   onclick="if(!(confirm('Are you sure you want to purchase this product?')))return false">Buy Now</a>
+                <!--test-->
+
             </td>
         </tr>
         </tbody>
     </table>
-	<div style="text-align: center;"> <a th:href="@{about}">About us</a> </div>
 </div>
 </body>
 </html>
