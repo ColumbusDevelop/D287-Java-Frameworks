@@ -41,6 +41,21 @@ public class MainScreenControllerr {
         this.partService=partService;
         this.productService=productService;
     }
+	
+	// Go to about page
+	//
+	//
+	
+	@GetMapping("/about")
+    public String about() {
+        return "about";
+    }
+	
+	//
+	//
+	//
+	//
+	
     @GetMapping("/mainscreen")
     public String listPartsandProducts(Model theModel, @Param("partkeyword") String partkeyword, @Param("productkeyword") String productkeyword){
         //add to the sprig model
@@ -52,10 +67,5 @@ public class MainScreenControllerr {
         theModel.addAttribute("products", productList);
         theModel.addAttribute("productkeyword",productkeyword);
         return "mainscreen";
-    }
-
-    @GetMapping("/about")
-    public String about() {
-        return "about"; // about.html page reference
     }
 }
