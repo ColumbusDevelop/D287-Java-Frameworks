@@ -167,6 +167,80 @@ F.  Add a “Buy Now” button to your product list. Your “Buy Now” button m
 	b)  The button should decrement the inventory of that product by one. It should not affect the inventory of any of the associated parts.
 	c)  Display a message that indicates the success or failure of a purchase.
 
+	MODIFIED - mainscreen.html
+	
+	Lines: #86 to #87
+	
+	<a th:href="@{/buyproduct(productID=${tempProduct.id})}" class="btn btn-primary btn-sm mb-3"
+                   onclick="if(!(confirm('Are you sure you want to purchase this product?')))return false">Buy Now</a>
+				   
+	ADDED - confirmationbuyproduct.html
+	
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Buy Product Confirmation</title>
+	</head>
+	<body>
+	<h1>Your product has been successfully bought</h1>
+
+	<a href="http://localhost:8080/">Go
+    to Main Screen</a>
+	</body>
+	</html>
+	
+	ADDED - failbuyproduct.html
+	
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Buy Product Failure</title>
+	</head>
+	<body>
+	<h1>There was an error that occured when buying your product</h1>
+
+	<a href="http://localhost:8080/">Go
+    to Main Screen</a>
+	</body>
+	</html>
+	
+	ADDED - BuyNowController.java
+	
+	package com.example.demo.controllers;
+	import com.example.demo.domain.Product;
+	import com.example.demo.repositories.ProductRepository;
+	import org.springframework.beans.factory.annotation.Autowired;
+	import org.springframework.stereotype.Controller;
+	import org.springframework.web.bind.annotation.GetMapping;
+	import org.springframework.web.bind.annotation.PostMapping;
+	import org.springframework.web.bind.annotation.RequestParam;
+	import java.util.Optional;
+	@Controller
+	public class BuyNowController {
+    @Autowired
+    private final ProductRepository productSearch;
+    public BuyNowController(ProductRepository productSearch) {
+        this.productSearch = productSearch;
+    }
+    @GetMapping("/buynow")
+    public String buyProduct(@RequestParam Long productId) {
+        Optional<Product> productOptional = productSearch.findById(productId);
+
+        if (productOptional.isPresent()) {
+            Product purchasedProduct = productOptional.get();
+            if (purchasedProduct.getInv() >= 1) {
+                purchasedProduct.setInv(purchasedProduct.getInv() - 1);
+                productSearch.save(purchasedProduct);
+
+                return "confirmationbuyproduct";
+            }
+        }
+        return "failbuyproduct";
+    }
+}
+
 G.  Modify the parts to track maximum and minimum inventory by doing the following:
 	a)  Add additional fields to the part entity for maximum and minimum inventory.
 	b)  Modify the sample inventory to include the maximum and minimum fields.
@@ -174,19 +248,19 @@ G.  Modify the parts to track maximum and minimum inventory by doing the followi
 	d)  Rename the file the persistent storage is saved to.
 	e)  Modify the code to enforce that the inventory is between or at the minimum and maximum value.
 
-	a
+	
 
 H.  Add validation for between or at the maximum and minimum fields. The validation must include the following:
 	a)  Display error messages for low inventory when adding and updating parts if the inventory is less than the minimum number of parts.
 	b)  Display error messages for low inventory when adding and updating products lowers the part inventory below the minimum.
 	c)  Display error messages when adding and updating parts if the inventory is greater than the maximum.
 
-	a
+	
 
 I.  Add at least two unit tests for the maximum and minimum fields to the PartTest class in the test package.
 
-	a
+	
 
 J.  Remove the class files for any unused validators in order to clean your code.
 
-	a
+	
