@@ -247,7 +247,15 @@ G.  Modify the parts to track maximum and minimum inventory by doing the followi
 	c)  Add to the InhousePartForm and OutsourcedPartForm forms additional text inputs for the inventory so the user can set the maximum and minimum values.
 	d)  Rename the file the persistent storage is saved to.
 	e)  Modify the code to enforce that the inventory is between or at the minimum and maximum value.
-
+	
+	MODIFIED - application.properties
+	
+	Line: #6
+	
+	FROM
+	spring.datasource.url=jdbc:h2:file:~/spring-boot-h2-db102
+	TO
+	spring.datasource.url=jdbc:h2:file:~/chungus
 	
 
 H.  Add validation for between or at the maximum and minimum fields. The validation must include the following:
@@ -255,12 +263,7 @@ H.  Add validation for between or at the maximum and minimum fields. The validat
 	b)  Display error messages for low inventory when adding and updating products lowers the part inventory below the minimum.
 	c)  Display error messages when adding and updating parts if the inventory is greater than the maximum.
 
-	
-
 I.  Add at least two unit tests for the maximum and minimum fields to the PartTest class in the test package.
-
-	
 
 J.  Remove the class files for any unused validators in order to clean your code.
 
-	
