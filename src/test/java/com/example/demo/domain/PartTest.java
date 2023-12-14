@@ -1,13 +1,9 @@
 package com.example.demo.domain;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 /**
  * Project: demoDarbyFrameworks2-master
  * Package: com.example.demo.domain
@@ -35,7 +31,6 @@ class PartTest {
         partOut.setId(idValue);
         assertEquals(partOut.getId(), idValue);
     }
-
     @Test
     void setId() {
         Long idValue=4L;
@@ -44,7 +39,6 @@ class PartTest {
         partOut.setId(idValue);
         assertEquals(partOut.getId(), idValue);
     }
-
     @Test
     void getName() {
         String name="test inhouse part";
@@ -54,7 +48,6 @@ class PartTest {
         partOut.setName(name);
         assertEquals(name,partOut.getName());
     }
-
     @Test
     void setName() {
         String name="test inhouse part";
@@ -64,7 +57,6 @@ class PartTest {
         partOut.setName(name);
         assertEquals(name,partOut.getName());
     }
-
     @Test
     void getPrice() {
         double price=1.0;
@@ -73,7 +65,6 @@ class PartTest {
         partOut.setPrice(price);
         assertEquals(price,partOut.getPrice());
     }
-
     @Test
     void setPrice() {
         double price=1.0;
@@ -82,7 +73,6 @@ class PartTest {
         partOut.setPrice(price);
         assertEquals(price,partOut.getPrice());
     }
-
     @Test
     void getInv() {
         int inv=5;
@@ -91,7 +81,6 @@ class PartTest {
         partOut.setInv(inv);
         assertEquals(inv,partOut.getInv());
     }
-
     @Test
     void setInv() {
         int inv=5;
@@ -100,8 +89,8 @@ class PartTest {
         partOut.setInv(inv);
         assertEquals(inv,partOut.getInv());
     }
-	
 	@Test
+	// Supplied testing for cieling and floor bounds funcs
     void atUpBounds() {
         int inv=5;
         int max=10;
@@ -112,7 +101,6 @@ class PartTest {
         partOut.setInv(inv);
         assertEquals(true,Part.atUpBounds(inv));
     }
-
     @Test
     void atLowBounds() {
         int inv=5;
@@ -124,7 +112,6 @@ class PartTest {
         partOut.setInv(inv);
         assertEquals(true,Part.atLowBounds(inv));
 	}
-
     @Test
     void getProducts() {
         Product product1= new Product();
@@ -137,7 +124,6 @@ class PartTest {
         partOut.setProducts(myProducts);
         assertEquals(myProducts,partOut.getProducts());
     }
-
     @Test
     void setProducts() {
         Product product1= new Product();
@@ -150,7 +136,6 @@ class PartTest {
         partOut.setProducts(myProducts);
         assertEquals(myProducts,partOut.getProducts());
     }
-
     @Test
     void testToString() {
         String name="test inhouse part";
@@ -160,7 +145,6 @@ class PartTest {
         partOut.setName(name);
         assertEquals(name,partOut.toString());
     }
-
     @Test
     void testEquals() {
         partIn.setId(1l);
@@ -171,9 +155,7 @@ class PartTest {
         Part newPartOut=new OutsourcedPart();
         newPartOut.setId(1l);
         assertEquals(partOut,newPartOut);
-
     }
-
     @Test
     void testHashCode() {
         partIn.setId(1l);

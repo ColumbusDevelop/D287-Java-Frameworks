@@ -1,5 +1,4 @@
 package com.example.demo.controllers;
-
 import com.example.demo.domain.InhousePart;
 import com.example.demo.domain.Part;
 import com.example.demo.service.InhousePartService;
@@ -15,9 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.validation.Valid;
-
 /**
  *
  *
@@ -28,30 +25,27 @@ import javax.validation.Valid;
 public class AddInhousePartController{
     @Autowired
     private ApplicationContext context;
-
     @GetMapping("/showFormAddInPart")
     public String showFormAddInhousePart(Model theModel){
         InhousePart inhousepart=new InhousePart();
         theModel.addAttribute("inhousepart",inhousepart);
         return "InhousePartForm";
     }
-
     @PostMapping("/showFormAddInPart")
     public String submitForm(@Valid @ModelAttribute("inhousepart") InhousePart part, BindingResult theBindingResult, Model theModel){
         theModel.addAttribute("inhousepart",part);
-		
+		// Error checking for inventory
 		if (!Part.inventoryIsValid(part.getInv())) {
             theBindingResult.rejectValue("inv", "error.inv", "Inventory must be between min and max values.");
         }
-		
+		// Error checking for inventory
 		if (!Part.atLowBounds(part.getInv())) {
             theBindingResult.rejectValue("inv", "error.inv", "This is below the minimum allowed inventory.");
         }
-
+		// Error checking for inventory
         if (!Part.atUpBounds(part.getInv())) {
             theBindingResult.rejectValue("inv", "error.inv", "This is above the maximum inventory.");
         }
-		
         if(theBindingResult.hasErrors()){
             return "InhousePartForm";
         }
@@ -60,8 +54,6 @@ public class AddInhousePartController{
         InhousePart ip=repo.findById((int)part.getId());
         if(ip!=null)part.setProducts(ip.getProducts());
             repo.save(part);
-
         return "confirmationaddpart";}
     }
-
 }

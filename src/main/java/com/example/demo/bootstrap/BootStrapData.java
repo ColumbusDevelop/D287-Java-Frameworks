@@ -1,5 +1,4 @@
 package com.example.demo.bootstrap;
-
 import com.example.demo.domain.InhousePart;
 import com.example.demo.domain.OutsourcedPart;
 import com.example.demo.domain.Part;
@@ -14,14 +13,10 @@ import com.example.demo.service.ProductService;
 import com.example.demo.service.ProductServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
 import java.util.HashSet;
-
 import java.util.List;
 import java.util.Optional;
-
 import java.util.Set;
-
 /**
  *
  *
@@ -30,21 +25,16 @@ import java.util.Set;
  */
 @Component
 public class BootStrapData implements CommandLineRunner {
-
     private final PartRepository partRepository;
     private final ProductRepository productRepository;
-
     private final OutsourcedPartRepository outsourcedPartRepository;
-
     public BootStrapData(PartRepository partRepository, ProductRepository productRepository, OutsourcedPartRepository outsourcedPartRepository) {
         this.partRepository = partRepository;
         this.productRepository = productRepository;
         this.outsourcedPartRepository=outsourcedPartRepository;
     }
-
     @Override
     public void run(String... args) throws Exception {
-
        /*
         OutsourcedPart o= new OutsourcedPart();
         o.setCompanyName("Western Governors University");
@@ -58,25 +48,22 @@ public class BootStrapData implements CommandLineRunner {
         for(OutsourcedPart part:outsourcedParts){
             if(part.getName().equals("out test"))thePart=part;
         }
-
         System.out.println(thePart.getCompanyName());
         */
         List<OutsourcedPart> outsourcedParts=(List<OutsourcedPart>) outsourcedPartRepository.findAll();
         for(OutsourcedPart part:outsourcedParts){
             System.out.println(part.getName()+" "+part.getCompanyName());
         }
-
         /*
         Product bicycle= new Product("bicycle",100.0,15);
         Product unicycle= new Product("unicycle",100.0,15);
         productRepository.save(bicycle);
         productRepository.save(unicycle);
         */
-
+		// Added floor and inventory cieling setters
 		long partCounter = partRepository.count();
 		long outsourcedPartCounter = outsourcedPartRepository.count();
         long productCounter = productRepository.count();
-		
 		InhousePart up_seat = new InhousePart();
         up_seat.setName("Upholstered Seat");
 		up_seat.setId(10);
@@ -112,7 +99,6 @@ public class BootStrapData implements CommandLineRunner {
         embroid_accents.setInv(10);
 		up_seat.setFloorInventory(1);
         up_seat.setCielingInventory(100);
-		
         if (partCounter == 0) {
             partRepository.save(up_seat);
             partRepository.save(wooden_legs);
@@ -120,7 +106,6 @@ public class BootStrapData implements CommandLineRunner {
             partRepository.save(metal_fast);
             partRepository.save(embroid_accents);
         }
-		
 		OutsourcedPart dec_rests = new OutsourcedPart();
         dec_rests.setName("Decorative Armrests");
 		dec_rests.setId(15);
@@ -161,7 +146,6 @@ public class BootStrapData implements CommandLineRunner {
 		up_seat.setFloorInventory(1);
         up_seat.setCielingInventory(100);
 		zip_clos.setCompanyName("GlobalCraft Components");
-		
         if (outsourcedPartCounter == 0) {
             outsourcedPartRepository.save(dec_rests);
             outsourcedPartRepository.save(fab_mat);
@@ -169,14 +153,11 @@ public class BootStrapData implements CommandLineRunner {
             outsourcedPartRepository.save(tassel_trim);
             outsourcedPartRepository.save(zip_clos);
         }
-
         Product classic_chair = new Product(100, "Classic Lounge Chair", 99.99, 15);
         Product contemp_armchair = new Product(101, "Contemporary Armchair", 125.99, 15);
         Product modern_sofa = new Product(102, "Modern Sofa", 150.99, 15);
         Product boho_bench = new Product(103, "Boho-Chic Cushioned Bench", 175.99, 15);
         Product elegant_seat = new Product(104, "Elegant Loveseat", 200.99, 15);
-
-
         if (productCounter == 0 ) {		
 		    productRepository.save(classic_chair);
             productRepository.save(contemp_armchair);
@@ -184,12 +165,10 @@ public class BootStrapData implements CommandLineRunner {
             productRepository.save(boho_bench);
             productRepository.save(elegant_seat);
         }
-		
         System.out.println("Started in Bootstrap");
         System.out.println("Number of Products"+productRepository.count());
         System.out.println(productRepository.findAll());
         System.out.println("Number of Parts"+partRepository.count());
         System.out.println(partRepository.findAll());
-
     }
 }
