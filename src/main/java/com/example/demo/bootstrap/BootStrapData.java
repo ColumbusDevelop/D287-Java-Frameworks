@@ -4,6 +4,7 @@ import com.example.demo.domain.InhousePart;
 import com.example.demo.domain.OutsourcedPart;
 import com.example.demo.domain.Part;
 import com.example.demo.domain.Product;
+import com.example.demo.repositories.InhousePartRepository;
 import com.example.demo.repositories.OutsourcedPartRepository;
 import com.example.demo.repositories.PartRepository;
 import com.example.demo.repositories.ProductRepository;
@@ -14,8 +15,12 @@ import com.example.demo.service.ProductServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+
 import java.util.List;
 import java.util.Optional;
+
+import java.util.Set;
 
 /**
  *
@@ -77,26 +82,36 @@ public class BootStrapData implements CommandLineRunner {
 		up_seat.setId(10);
         up_seat.setPrice(19.99);
         up_seat.setInv(10);
+		up_seat.setMinInventory(1);
+        up_seat.setMaxInventory(100);
         InhousePart wooden_legs = new InhousePart();
         wooden_legs.setName("Wooden Legs");
 		wooden_legs.setId(11);
         wooden_legs.setPrice(25.99);
         wooden_legs.setInv(10);
+		up_seat.setMinInventory(1);
+        up_seat.setMaxInventory(100);
         InhousePart cushions_plush = new InhousePart();
         cushions_plush.setName("Plush Cushions");
 		cushions_plush.setId(12);
         cushions_plush.setPrice(29.99);
         cushions_plush.setInv(10);
+		up_seat.setMinInventory(1);
+        up_seat.setMaxInventory(100);
         InhousePart metal_fast = new InhousePart();
         metal_fast.setName("Metal Fasteners");
 		metal_fast.setId(13);
         metal_fast.setPrice(39.99);
         metal_fast.setInv(10);
+		up_seat.setMinInventory(1);
+        up_seat.setMaxInventory(100);
         InhousePart embroid_accents = new InhousePart();
         embroid_accents.setName("Embroidered Accents");
 		embroid_accents.setId(14);
         embroid_accents.setPrice(45.99);
         embroid_accents.setInv(10);
+		up_seat.setMinInventory(1);
+        up_seat.setMaxInventory(100);
 		
         if (partCounter == 0) {
             partRepository.save(up_seat);
@@ -111,30 +126,40 @@ public class BootStrapData implements CommandLineRunner {
 		dec_rests.setId(15);
         dec_rests.setPrice(15.99);
         dec_rests.setInv(10);
+		up_seat.setMinInventory(1);
+        up_seat.setMaxInventory(100);
         dec_rests.setCompanyName("GlobalCraft Components");
         OutsourcedPart fab_mat = new OutsourcedPart();
         fab_mat.setName("High-Quality Fabric Materials");
 		fab_mat.setId(16);
         fab_mat.setPrice(19.99);
         fab_mat.setInv(10);
+		up_seat.setMinInventory(1);
+        up_seat.setMaxInventory(100);
         fab_mat.setCompanyName("GlobalCraft Components");
         OutsourcedPart stitch_pat = new OutsourcedPart();
         stitch_pat.setName("Stitching Patterns");
 		stitch_pat.setId(17);
         stitch_pat.setPrice(21.99);
         stitch_pat.setInv(10);
+		up_seat.setMinInventory(1);
+        up_seat.setMaxInventory(100);
         stitch_pat.setCompanyName("GlobalCraft Components");
         OutsourcedPart tassel_trim = new OutsourcedPart();
         tassel_trim.setName("Tassel Trim");
 		tassel_trim.setId(18);
         tassel_trim.setPrice(23.99);
         tassel_trim.setInv(10);
+		up_seat.setMinInventory(1);
+        up_seat.setMaxInventory(100);
         tassel_trim.setCompanyName("GlobalCraft Components");
         OutsourcedPart zip_clos = new OutsourcedPart();
         zip_clos.setName("Zipper Closures");
 		zip_clos.setId(19);
         zip_clos.setPrice(30.99);
         zip_clos.setInv(10);
+		up_seat.setMinInventory(1);
+        up_seat.setMaxInventory(100);
 		zip_clos.setCompanyName("GlobalCraft Components");
 		
         if (outsourcedPartCounter == 0) {

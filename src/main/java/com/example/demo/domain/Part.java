@@ -4,6 +4,7 @@ import com.example.demo.validators.ValidDeletePart;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,11 +24,23 @@ public abstract class Part implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
-    String name;
+	
+    @Column String name;
+	@Column
     @Min(value = 0, message = "Price value must be positive")
     double price;
+	
+	@Column
+	
     @Min(value = 0, message = "Inventory value must be positive")
     int inv;
+	
+	@Min(value = 1, message = "Inventory minimum exceeded")
+    @Column
+    static Integer minInventory = 1;
+    @Max(value = 50, message = "Iventory maximum exceeded")
+    @Column
+    static Integer maxInventory = 100;
 
     @ManyToMany
     @JoinTable(name="product_part", joinColumns = @JoinColumn(name="part_id"),
@@ -43,11 +56,13 @@ public abstract class Part implements Serializable {
         this.inv = inv;
     }
 
-    public Part(long id, String name, double price, int inv) {
+    public Part(long id, String name, double price, int inv, int minInventory, int maxInventory) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.inv = inv;
+        this.minInventory = minInventory;
+        this.maxInventory = maxInventory;
     }
 
     public long getId() {
@@ -81,6 +96,17 @@ public abstract class Part implements Serializable {
     public void setInv(int inv) {
         this.inv = inv;
     }
+	
+	public void setMinInventory(Integer inv) { this.minInventory = inv; }
+    public Integer getMinInventory() { return minInventory; }
+
+    public void setMaxInventory(Integer maxInventory) {
+        this.maxInventory = maxInventory;
+    }
+
+    public Integer getMaxInventory() {
+        return maxInventory;
+    }
 
     public Set<Product> getProducts() {
         return products;
@@ -88,6 +114,13 @@ public abstract class Part implements Serializable {
 
     public void setProducts(Set<Product> products) {
         this.products = products;
+    }
+	
+	public static boolean invIsValid(int inv) {
+        if(inv >= minInventory && inv <= maxInventory) {
+            return true;
+        }
+        else { return false; }
     }
 
     public String toString(){
