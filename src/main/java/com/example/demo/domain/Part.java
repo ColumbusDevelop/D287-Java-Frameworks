@@ -37,10 +37,10 @@ public abstract class Part implements Serializable {
 	
 	@Min(value = 1, message = "Inventory minimum exceeded")
     @Column
-    static Integer minInventory = 1;
+    static Integer floorInventory = 1;
     @Max(value = 50, message = "Iventory maximum exceeded")
     @Column
-    static Integer maxInventory = 100;
+    static Integer cielingInventory = 100;
 
     @ManyToMany
     @JoinTable(name="product_part", joinColumns = @JoinColumn(name="part_id"),
@@ -56,13 +56,13 @@ public abstract class Part implements Serializable {
         this.inv = inv;
     }
 
-    public Part(long id, String name, double price, int inv, int minInventory, int maxInventory) {
+    public Part(long id, String name, double price, int inv, int floorInventory, int cielingInventory) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.inv = inv;
-        this.minInventory = minInventory;
-        this.maxInventory = maxInventory;
+        this.floorInventory = floorInventory;
+        this.cielingInventory = cielingInventory;
     }
 
     public long getId() {
@@ -97,15 +97,15 @@ public abstract class Part implements Serializable {
         this.inv = inv;
     }
 	
-	public void setMinInventory(Integer inv) { this.minInventory = inv; }
-    public Integer getMinInventory() { return minInventory; }
+	public void setFloorInventory(Integer inv) { this.floorInventory = inv; }
+    public Integer getFloorInventory() { return floorInventory; }
 
-    public void setMaxInventory(Integer maxInventory) {
-        this.maxInventory = maxInventory;
+    public void setCielingInventory(Integer maxInventory) {
+        this.cielingInventory = maxInventory;
     }
 
-    public Integer getMaxInventory() {
-        return maxInventory;
+    public Integer getCielingInventory() {
+        return cielingInventory;
     }
 
     public Set<Product> getProducts() {
@@ -116,22 +116,22 @@ public abstract class Part implements Serializable {
         this.products = products;
     }
 	
-	public static boolean invIsValid(int inv) {
-        if(inv >= minInventory && inv <= maxInventory) {
+	public static boolean inventoryIsValid(int inv) {
+        if(inv >= floorInventory && inv <= cielingInventory) {
             return true;
         }
         else { return false; }
     }
 	
-	public static boolean atLowerBounds(int inv) {
-        if(inv <= (minInventory - 1)){
+	public static boolean atLowBounds(int inv) {
+        if(inv <= (floorInventory - 1)){
             return false;
         }
         else { return true; }
     }
 
-    public static boolean atUpperBounds(int inv) {
-        if (inv > maxInventory) {
+    public static boolean atUpBounds(int inv) {
+        if (inv > cielingInventory) {
             return false;
         }
         else { return true; }

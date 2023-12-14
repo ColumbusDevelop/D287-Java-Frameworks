@@ -102,27 +102,27 @@ class PartTest {
     }
 	
 	@Test
-    void atUpperBounds() {
+    void atUpBounds() {
         int inv=5;
         int max=10;
-        partIn.setMaxInventory(max);
+        partIn.setCielingInventory(max);
         partIn.setInv(inv);
-        assertEquals(true, Part.atUpperBounds(inv));
-        partOut.setMaxInventory(max);
+        assertEquals(true, Part.atUpBounds(inv));
+        partOut.setCielingInventory(max);
         partOut.setInv(inv);
-        assertEquals(true,Part.atUpperBounds(inv));
+        assertEquals(true,Part.atUpBounds(inv));
     }
 
     @Test
-    void atLowerBoudnds() {
+    void atLowBounds() {
         int inv=5;
         int min=3;
-        partIn.setMinInventory(min);
+        partIn.setFloorInventory(min);
         partIn.setInv(inv);
-        assertEquals(true, Part.atLowerBounds(inv));
-        partOut.setMinInventory(min);
+        assertEquals(true, Part.atLowBounds(inv));
+        partOut.setFloorInventory(min);
         partOut.setInv(inv);
-        assertEquals(true,Part.atLowerBounds(inv));
+        assertEquals(true,Part.atLowBounds(inv));
 	}
 
     @Test
