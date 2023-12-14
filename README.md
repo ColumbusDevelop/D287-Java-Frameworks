@@ -8,6 +8,7 @@ FOR SPECIFIC TASK INSTRUCTIONS AND REQUIREMENTS FOR THIS ASSESSMENT, PLEASE REFE
 
 C.  Customize the HTML user interface for your customer’s application. The user interface should include the shop name, the product names, and the names of the parts.
 	Note: Do not remove any elements that were included in the screen. You may add any additional elements you would like or any images, colors, and styles, although it is not required.
+	Customize store headings and descriptions
 
     MODIFIED - mainscreen.html
 	
@@ -32,6 +33,8 @@ C.  Customize the HTML user interface for your customer’s application. The use
 D.  Add an “About” page to the application to describe your chosen customer’s company to web viewers and include navigation to and from the “About” page and the main screen.
 
     ADDED - about.html
+	
+	Added about store page
 
         <!DOCTYPE html>  
         <html lang="en">  
@@ -53,6 +56,8 @@ D.  Add an “About” page to the application to describe your chosen customer�
 		
 	MODIFIED - MainScreenControllerr.java
 	
+		Added about page redirect
+	
 		Line: #13: import org.springframework.web.bind.annotation.RequestMapping;
 		Lines: #45 to #48:
 		
@@ -69,6 +74,8 @@ E.  Add a sample inventory appropriate for your chosen store to the application.
 		Line #3: import com.example.demo.domain.InhousePart;
 		
 		Lines #71 to #161:
+		
+		Creating parts and products objects and added if statement to check if there's already some in the repository
 	
 		long partCounter = partRepository.count();
 		long outsourcedPartCounter = outsourcedPartRepository.count();
@@ -171,10 +178,14 @@ F.  Add a “Buy Now” button to your product list. Your “Buy Now” button m
 	
 	Lines: #86 to #87
 	
+	Added purchase button for products
+	
 	<a th:href="@{/buyproduct(productID=${tempProduct.id})}" class="btn btn-primary btn-sm mb-3"
                    onclick="if(!(confirm('Are you sure you want to purchase this product?')))return false">Buy Now</a>
 				   
 	ADDED - confirmationbuyproduct.html
+	
+	Added error or success redirects for product purchasing
 	
 	<!DOCTYPE html>
 	<html lang="en">
@@ -192,6 +203,8 @@ F.  Add a “Buy Now” button to your product list. Your “Buy Now” button m
 	
 	ADDED - failbuyproduct.html
 	
+	Added error or success redirects for product purchasing
+	
 	<!DOCTYPE html>
 	<html lang="en">
 	<head>
@@ -207,6 +220,8 @@ F.  Add a “Buy Now” button to your product list. Your “Buy Now” button m
 	</html>
 	
 	ADDED - BuyNowController.java
+	
+	Adding purchasing logic for buying products
 	
 	package com.example.demo.controllers;
 	import com.example.demo.domain.Product;
@@ -252,18 +267,171 @@ G.  Modify the parts to track maximum and minimum inventory by doing the followi
 	
 	Line: #6
 	
+	Renamed database name
+	
 	FROM
 	spring.datasource.url=jdbc:h2:file:~/spring-boot-h2-db102
 	TO
 	spring.datasource.url=jdbc:h2:file:~/chungus
 	
+	MODIFIED - Part.java
+	
+	Lines: #32 to #43
+	
+	Initiating floorInventory and cielingInventory vairables
+	
+	@Min(value = 1, message = "Inventory minimum exceeded")
+    static Integer floorInventory = 1;
+    @Max(value = 50, message = "Iventory maximum exceeded")
+    static Integer cielingInventory = 100;
+    @ManyToMany
+    @JoinTable(name="product_part", joinColumns = @JoinColumn(name="part_id"),
+            inverseJoinColumns=@JoinColumn(name="product_id"))
+    Set<Product> products= new HashSet<>();
+    public Part() {
+    }
+	
+	Lines: #50 - #57
+	
+	Added floorInventory and cielingInventory as data fields for constructor, also parameters as well
+	
+	public Part(long id, String name, double price, int inv, int floorInventory, int cielingInventory) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.inv = inv;
+        this.floorInventory = floorInventory;
+        this.cielingInventory = cielingInventory;
+    }
+	
+	Lines: #97 - #102
+	
+	public static boolean inventoryIsValid(int inv) {
+        if(inv >= floorInventory && inv <= cielingInventory) {
+            return true;
+        }
+        else { return false; }
+    }
+	
+	MODIFIED - BootStrapData.JAVA
+	
+	Added floor and cieling data fields to parts objects (in-house and outsourced)
+	
+	MODIFIED - InhousePartForm.HTML
+	
+	Lines: #21 to #22
+	
+	Allows user to customize floor and cieling inventory limits for inouse parts
+	
+	<p><input type="text" th:field="*{floorInventory}" placeholder="Min Inventory" class="form-control mb-4 col-4" /></p>
+    <p><input type="text" th:field="*{cielingInventory}" placeholder="Max Inventory" class="form-control mb-4 col-4" /></p>
+	
+	MODIFIED - OutsourcedPartForm.html
+	
+	Lines: #21 to #22
+	
+	Allows user to customize floor and cieling inventory limits for outsourced parts
+	
+	<p><input type="text" th:field="*{floorInventory}" placeholder="Min Inventory" class="form-control mb-4 col-4" /></p>
+    <p><input type="text" th:field="*{cielingInventory}" placeholder="Max Inventory" class="form-control mb-4 col-4" /></p>
+	
+	MODIFIED - AddInhousePartController.java
+	
+	Lines: #38 to #40
+	
+	Added inventory value checker for inhouse parts controller for HTML page
+	
+	if (!Part.inventoryIsValid(part.getInv())) {
+		theBindingResult.rejectValue("inv", "error.inv", "Inventory must be between min and max values.");
+    }
+	
+	MODIFIED - AddOutsourcedPartController.java
+	
+	Lines: #39 to #41
+	
+	Added inventory value checker for outsourced parts controller for HTML page
+	
+	if (!Part.inventoryIsValid(part.getInv())) {
+        bindingResult.rejectValue("inv", "error.inv", "Inventory must be between min and max values.");
+    }
 
 H.  Add validation for between or at the maximum and minimum fields. The validation must include the following:
 	a)  Display error messages for low inventory when adding and updating parts if the inventory is less than the minimum number of parts.
 	b)  Display error messages for low inventory when adding and updating products lowers the part inventory below the minimum.
 	c)  Display error messages when adding and updating parts if the inventory is greater than the maximum.
 
+	MODIFIED - Part.JAVA
+	
+	Lines: #104 to #115
+	
+	Error if supplied inventory inputs are below or above floor and inventory levels
+
+	public static boolean atLowBounds(int inv) {
+        if(inv <= (floorInventory - 1)){
+            return false;
+        }
+        else { return true; }
+    }
+    public static boolean atUpBounds(int inv) {
+        if (inv > cielingInventory) {
+            return false;
+        }
+        else { return true; }
+    }
+	
+	MODIFIED - AddInhousePartController.java
+	
+	Lines: #43 to #48
+	
+	Error if supplied inventory inputs are below or above floor and inventory levels
+	
+	if (!Part.atLowBounds(part.getInv())) {
+        theBindingResult.rejectValue("inv", "error.inv", "This is below the minimum allowed inventory.");
+    }
+    if (!Part.atUpBounds(part.getInv())) {
+        theBindingResult.rejectValue("inv", "error.inv", "This is above the maximum inventory.");
+    }
+	
+	MODIFIED - EnufPartsValidator.java
+	
+	Error checking for below floor inventory purchasing
+	
+	Lines: #33 to #34
+	
+	if ((p.getInv()<(product.getInv()-myProduct.getInv())) || ((p.getInv() - 1) < p.getFloorInventory())) 		return false;
+    }
+
 I.  Add at least two unit tests for the maximum and minimum fields to the PartTest class in the test package.
+
+	MODIFIED - PartTest.JAVA
+	
+	Lines: #94 to #114
+	
+	Supplied unit testing for floor and cieling inventory limit funcs
+	
+	@Test
+	void atUpBounds() {
+        int inv=5;
+        int max=10;
+        partIn.setCielingInventory(max);
+        partIn.setInv(inv);
+        assertEquals(true, Part.atUpBounds(inv));
+        partOut.setCielingInventory(max);
+        partOut.setInv(inv);
+        assertEquals(true,Part.atUpBounds(inv));
+    }
+    @Test
+    void atLowBounds() {
+        int inv=5;
+        int min=3;
+        partIn.setFloorInventory(min);
+        partIn.setInv(inv);
+        assertEquals(true, Part.atLowBounds(inv));
+        partOut.setFloorInventory(min);
+        partOut.setInv(inv);
+        assertEquals(true,Part.atLowBounds(inv));
+	}
 
 J.  Remove the class files for any unused validators in order to clean your code.
 
+	Removed unused validator (DeletePartsValidator)
