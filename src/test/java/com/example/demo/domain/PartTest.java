@@ -123,7 +123,7 @@ class PartTest {
         partOut.setMinInventory(min);
         partOut.setInv(inv);
         assertEquals(true,Part.atLowerBounds(inv));
-
+	}
 
     @Test
     void getProducts() {
