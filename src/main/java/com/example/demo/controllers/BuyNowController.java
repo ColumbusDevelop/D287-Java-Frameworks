@@ -12,10 +12,12 @@ import java.util.Optional;
 @Controller
 public class BuyNowController {
     @Autowired
+    // Product Searching
     private final ProductRepository productSearch;
     public BuyNowController(ProductRepository productSearch) {
         this.productSearch = productSearch;
     }
+    // Buy Now Button
     @GetMapping("/buynow")
     public String buyProduct(@RequestParam Long productId) {
         Optional<Product> productNotNull = productSearch.findById(productId);

@@ -61,9 +61,12 @@ public class BootStrapData implements CommandLineRunner {
         productRepository.save(unicycle);
         */
 		// Added floor and inventory cieling setters
+        // test
+        // test
 		long partCounter = partRepository.count();
 		long outsourcedPartCounter = outsourcedPartRepository.count();
         long productCounter = productRepository.count();
+        // InHouse parts start
 		InhousePart up_seat = new InhousePart();
         up_seat.setName("Upholstered Seat");
 		up_seat.setId(10);
@@ -106,6 +109,9 @@ public class BootStrapData implements CommandLineRunner {
             partRepository.save(metal_fast);
             partRepository.save(embroid_accents);
         }
+        // Outsourced parts start
+        // test
+        // test
 		OutsourcedPart dec_rests = new OutsourcedPart();
         dec_rests.setName("Decorative Armrests");
 		dec_rests.setId(15);
@@ -153,6 +159,9 @@ public class BootStrapData implements CommandLineRunner {
             outsourcedPartRepository.save(tassel_trim);
             outsourcedPartRepository.save(zip_clos);
         }
+        // Products start
+        // test
+        // test
         Product classic_chair = new Product(100, "Classic Lounge Chair", 99.99, 15);
         Product contemp_armchair = new Product(101, "Contemporary Armchair", 125.99, 15);
         Product modern_sofa = new Product(102, "Modern Sofa", 150.99, 15);

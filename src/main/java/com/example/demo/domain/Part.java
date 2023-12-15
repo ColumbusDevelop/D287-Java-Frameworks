@@ -29,6 +29,8 @@ public abstract class Part implements Serializable {
     @Min(value = 0, message = "Inventory value must be positive")
     int inv;
 	// Added check for exceeding inventory minimum and maximum
+    // test
+    // test
 	@Min(value = 1, message = "Inventory minimum exceeded")
     @Column
     static Integer floorInventory = 1;
@@ -47,6 +49,8 @@ public abstract class Part implements Serializable {
         this.inv = inv;
     }
 	// Added function so floorInventory and cielingInventory can be passed as parameters
+    // test
+    // test
     public Part(long id, String name, double price, int inv, int floorInventory, int cielingInventory) {
         this.id = id;
         this.name = name;
@@ -94,6 +98,8 @@ public abstract class Part implements Serializable {
         this.products = products;
     }
 	// Checks if inventory is within valid bounds
+    // test
+    // test
 	public static boolean inventoryIsValid(int inv) {
         if(inv >= floorInventory && inv <= cielingInventory) {
             return true;
@@ -101,6 +107,8 @@ public abstract class Part implements Serializable {
         else { return false; }
     }
 	// Checking field choices to see if floorInventory and cielingInventory are valid
+    // test
+    // test
 	public static boolean atLowBounds(int inv) {
         if(inv <= (floorInventory - 1)){
             return false;
